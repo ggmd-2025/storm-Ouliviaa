@@ -19,7 +19,7 @@ public class TopologyT5 {
         TopologyBuilder builder = new TopologyBuilder();
 
         // 1. Source
-        builder.setSpout("masterStream", new InputStreamSpout("127.0.0.1", portINPUT));
+        builder.setSpout("masterStream", new InputStreamSpout("storm-client", portINPUT));
 
         // 2. Calcul de la Vitesse avec fenêtrage
         // Fenêtre de longueur 10 (Count.of(10)) qui avance de 5 (Count.of(5))

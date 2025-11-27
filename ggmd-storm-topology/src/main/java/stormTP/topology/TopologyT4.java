@@ -6,7 +6,7 @@ import org.apache.storm.topology.TopologyBuilder;
 
 import stormTP.operator.InputStreamSpout;
 import stormTP.operator.GiveRankBolt;
-import stormTP.operator.PointsBolt;
+import stormTP.operator.ComputeBonusBolt;
 import stormTP.operator.Exit4Bolt;
 
 public class TopologyT4 {
@@ -19,14 +19,14 @@ public class TopologyT4 {
         TopologyBuilder builder = new TopologyBuilder();
 
         // 1. Spout
-        builder.setSpout("masterStream", new InputStreamSpout("127.0.0.1", portINPUT));
+        builder.setSpout("masterStream", new InputStreamSpout("storm-client", portINPUT));
 
         // 2. Calcul du Rang
         builder.setBolt("rank", new GiveRankBolt(), 1)
                .shuffleGrouping("masterStream");
         
         // 3. Calcul des Points (reçoit le flux de "rank")
-        builder.setBolt("points", new PointsBolt(), 1)
+        builder.setBolt("points", new ComputeBonusBolt(), 1)
                .shuffleGrouping("rank");
 
         // 4. Sortie (reçoit le flux de "points")
